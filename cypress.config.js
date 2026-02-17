@@ -11,6 +11,7 @@ module.exports = defineConfig({
   e2e: {
     defaultCommandTimeout: 10000, // Increase from 4s to 10s
     pageLoadTimeout: 60000,      // Increase time allowed for page to load
+    animationDistanceThreshold: 20, 
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },

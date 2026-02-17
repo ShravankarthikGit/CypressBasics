@@ -63,17 +63,20 @@ it('CypressLocatorMethods', () => {
 
     // find() method is used to find the element inside another element or child elements.
     // It will find the element with text 'Sign in' inside the element with text 'Horizontal form'
+    // find can only take one argument which is the element we want to find inside another element.
+    // find cant take plain text as argument
     cy.contains('nb-card', 'Horizontal form').find('button')
 
     // get() method is used to find the element in the page. It will find the element with text 'Sign in' in the whole page
     // so multiple elements with text 'Sign in' will be found. 
     // To avoid this we can use contains() method to find the element with text 'Sign in' inside the element with text 'Horizontal form'
+    // In Cypress, cy.get() can take two arguments: a selector and an options object. It does not accept text (like cy.contains() does). 
+    // Selector is mandatory and options object is optional.
     cy.contains('nb-card', 'Horizontal form').get('button')
 })
 
 it('ChildElements', () => {
-    // find can only take one argument which is the element we want to find inside another element.
-    // find cant take plain text as argument
+
     cy.contains('nb-card', 'Using the Grid').find('.row').find('button');
     cy.contains('nb-card', 'Using the Grid').find('.row').contains('button', 'Sign in');
 
@@ -188,7 +191,7 @@ it('ExtractingValues', () => {
     })
 })
 
-it.only('Assertions', () => {
+it('Assertions', () => {
     cy.get('[for="exampleInputEmail1"]').should('contain', 'Email address');
     cy.get('[for="exampleInputEmail1"]').should('have.text', 'Email address');
     cy.get('[for="exampleInputEmail1"]').should('include.text', 'Email');
@@ -201,4 +204,24 @@ it.only('Assertions', () => {
     })
     // Using invoke command
     cy.get('[for = "exampleInputEmail1"]').invoke('text').should('equal', 'Email address');
+})
+
+it.only('Timeouts', () => {
+    cy.contains('Modal & Overlays').click();
+    cy.contains('Dialog').click();
+
+    cy.contains('Open with delay 3 seconds').click();
+    cy.get('nb-dialog-container nb-card-header').should('have.text', 'Friendly reminder');
+    cy.get('nb-dialog-container').contains('OK').click();
+
+    cy.contains('Open with delay 10 seconds').click();
+    // for this we need to increase time out by 10 seconds in cypress.config.js file because by 
+    // default cypress will wait for 4 seconds for the element to appear and then it will throw an error if the element is not found.
+    //////cy.get('nb-dialog-container nb-card-header').should('have.text', 'Friendly reminder');
+
+    // We can also increse timeout for specific element by passing the timeout option to the get command. 
+    // Here we are increasing the timeout to 15 seconds for the element with text 'Friendly reminder' to appear.
+    cy.get('nb-dialog-container nb-card-header', { timeout: 15000 })
+    .should('have.text', 'Friendly reminder');
+
 })
