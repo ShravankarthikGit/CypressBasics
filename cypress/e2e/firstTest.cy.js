@@ -41,9 +41,9 @@ it('CypressLocators', () => {
 })
 
 it('CypressLocatorMethods', () => {
-    // get() - find element in the page
+    // get() - find element in the page. Use get for ID, Class, Attribute locators
     // find() - only find element inside another element or child elements
-    // contains() - to find webelements by text
+    // contains() - to find webelements by text. Use contains when there is visisble text  like Label
 
     // contains() method is used to find the element by its text. 
     // cy.contains() command only accepts up to two main arguments (a selector and the text).
@@ -206,7 +206,7 @@ it('Assertions', () => {
     cy.get('[for = "exampleInputEmail1"]').invoke('text').should('equal', 'Email address');
 })
 
-it.only('Timeouts', () => {
+it('Timeouts', () => {
     cy.contains('Modal & Overlays').click();
     cy.contains('Dialog').click();
 
